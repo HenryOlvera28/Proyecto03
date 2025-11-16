@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lis-Vet - Veterinaria Profesional en Guayaquil</title>
+    <meta name="description" content="Clínica veterinaria en Guayaquil. Atención profesional para tus mascotas con servicios de consulta, vacunación, cirugías y emergencias 24/7.">
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="font-sans antialiased">
+    <nav id="navbar" class="fixed w-full bg-white shadow-lg z-50 transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <div class="flex items-center space-x-3">
+                    <div class="logo-container">
+                        <svg class="w-10 h-10 text-white" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clip-rule="evenodd"/>
+                        </svg>
+                    </div>
+                    <div>
+                        <h1 class="text-2xl font-bold text-gray-800">Lis-Vet</h1>
+                        <p class="text-xs text-gray-600">Cuidado con amor</p>
+                    </div>
+                </div>
+
+                <div class="hidden md:flex space-x-8">
+                    <a href="#inicio" class="nav-link">Inicio</a>
+                    <a href="#servicios" class="nav-link">Servicios</a>
+                    <a href="#nosotros" class="nav-link">Nosotros</a>
+                    <a href="#contacto" class="nav-link">Contacto</a>
+                    <a href="#citas" class="nav-link">Mis Citas</a>
+                </div>
+
+                <button id="mobile-menu-btn" class="md:hidden p-2 rounded-lg hover:bg-gray-100">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+                    </svg>
+                </button>
+            </div>
+
+            <div id="mobile-menu" class="hidden md:hidden pb-4">
+                <a href="#inicio" class="mobile-nav-link">Inicio</a>
+                <a href="#servicios" class="mobile-nav-link">Servicios</a>
+                <a href="#nosotros" class="mobile-nav-link">Nosotros</a>
+                <a href="#contacto" class="mobile-nav-link">Contacto</a>
+                <a href="#citas" class="mobile-nav-link">Mis Citas</a>
+            </div>
+        </div>
+    </nav>
+
+    <section id="inicio" class="hero-section pt-32 pb-20 px-4">
+        <div class="max-w-7xl mx-auto">
+            <div class="grid md:grid-cols-2 gap-12 items-center">
+                <div class="space-y-6 animate-fade-in">
+                    <div class="badge">
+                        🐾 Tu mascota merece lo mejor
+                    </div>
+                    <h2 class="text-5xl md:text-6xl font-bold text-gray-900 leading-tight">
+                        Cuidado Veterinario de <span class="gradient-text">Excelencia</span>
+                    </h2>
+                    <p class="text-xl text-gray-600">
+                        En Lis-Vet brindamos atención médica integral para tus mascotas con profesionalismo, tecnología moderna y mucho amor. Tu compañero peludo está en las mejores manos.
+                    </p>
+                    <div class="flex flex-col sm:flex-row gap-4">
+                        <a href="#contacto" class="btn-primary">
+                            Agendar Cita
+                        </a>
+                        <a href="#servicios" class="btn-secondary">
+                            Ver Servicios
+                        </a>
+                    </div>
+                    <div id="weather-widget" class="weather-card">
+                        <p class="text-sm text-gray-700">
+                            🌤️ Cargando información del clima...
+                        </p>
+                    </div>
+                </div>
+                <div class="relative animate-fade-in-delay">
+                    <div class="hero-image-container">
+                        <img 
+                            src="https://images.unsplash.com/photo-1587300003388-59208cc962cb?w=800&q=80" 
+                            alt="Veterinaria atendiendo mascotas" 
+                            class="rounded-2xl shadow-2xl w-full h-full object-cover"
+                        />
+                    </div>
+                    <div class="rating-badge">
+                        <div class="flex items-center space-x-3">
+                            <svg class="w-8 h-8 text-yellow-400 fill-current" viewBox="0 0 20 20">
+                                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                            </svg>
+                            <div>
+                                <p class="font-bold text-2xl text-gray-800">4.9/5</p>
+                                <p class="text-sm text-gray-600">Calificación</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="servicios" class="py-20 px-4 bg-white">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl md:text-5xl font-bold text-gray-900 mb-4">Nuestros Servicios</h2>
+                <p class="text-xl text-gray-600 max-w-2xl mx-auto">Ofrecemos atención veterinaria completa para el bienestar de tu mascota</p>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="service-card service-card-blue">
+                    <div class="service-icon bg-blue-600">
+                        <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-2xl font-bold text-gray-800 mb-4">Consultas Generales</h3>
+                    <ul class="space-y-3 text-gray-700">
+                        <li class="service-list-item">
+                            <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                            </svg>
+                            <span>Exámenes físicos completos</span>
+                        </li>
+                        <li class="service-list-item">
+                            <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                            </svg>
+                            <span>Diagnóstico de enfermedades</span>
+                        </li>
+                        <li class="service-list-item">
+                            <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                            </svg>
+                            <span>Control de salud preventivo</span>
+                        </li>
+                        <li class="service-list-item">
+                            <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                            </svg>
+                            <span>Asesoría nutricional</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="service-card service-card-green">
+                    <div class="service-icon bg-green-600">
+                        <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-2xl font-bold text-gray-800 mb-4">Vacunación</h3>
+                    <ul class="space-y-3 text-gray-700">
+                        <li class="service-list-item">
+                            <svg class="w-5 h-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                            </svg>
+                            <span>Plan completo de vacunación</span>
+                        </li>
+                        <li class="service-list-item">
+                            <svg class="w-5 h-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                            </svg>
+                            <span>Refuerzos anuales</span>
+                        </li>
+                        <li class="service-list-item">
+                            <svg class="w-5 h-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                            </svg>
+                            <span>Carnet de vacunación</span>
+                        </li>
+                        <li class="service-list-item">
+                            <svg class="w-5 h-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                            </svg>
+                            <span>Desparasitación</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="service-card service-card-purple">
+                    <div class="service-icon bg-purple-600">
+                        <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-2xl font-bold text-gray-800 mb-4">Cirugías</h3>
+                    <ul class="space-y-3 text-gray-700">
+                        <li class="service-list-item">
+                            <svg class="w-5 h-5 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                            </svg>
+                            <span>Esterilización y castración</span>
+                        </li>
+                        <li class="service-list-item">
+                            <svg class="w-5 h-5 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                            </svg>
+                            <span>Cirugías de tejidos blandos</span>
+                        </li>
+                        <li class="service-list-item">
+                            <svg class="w-5 h-5 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                            </svg>
+                            <span>Procedimientos ortopédicos</span>
+                        </li>
+                        <li class="service-list-item">
+                            <svg class="w-5 h-5 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                            </svg>
+                            <span>Cuidados post-operatorios</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="stats-container mt-12">
+                <div class="stat-item">
+                    <p class="stat-number">10+</p>
+                    <p class="stat-label">Años de experiencia</p>
+                </div>
+                <div class="stat-item">
+                    <p class="stat-number">5000+</p>
+                    <p class="stat-label">Mascotas atendidas</p>
+                </div>
+                <div class="stat-item">
+                    <p class="stat-number">24/7</p>
+                    <p class="stat-label">Emergencias disponibles</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="nosotros" class="py-20 px-4 about-section">
+        <div class="max-w-7xl mx-auto">
+            <div class="grid md:grid-cols-2 gap-12 items-center">
+                <div>
+                    <img 
+                        src="https://images.unsplash.com/photo-1628009368231-7bb7cfcb0def?w=800&q=80" 
+                        alt="Equipo veterinario profesional" 
+                        class="rounded-2xl shadow-2xl"
+                    />
+                </div>
+                <div class="space-y-6">
+                    <div class="badge badge-green">
+                        <svg class="w-4 h-4 inline mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/>
+                        </svg>
+                        Sobre Nosotros
+                    </div>
+                    <h2 class="text-4xl md:text-5xl font-bold text-gray-900">Comprometidos con la salud de tu mascota</h2>
+                    <p class="text-lg text-gray-700">
+                        Lis-Vet es una clínica veterinaria fundada con la misión de proporcionar atención médica de calidad superior para mascotas en Guayaquil y sus alrededores. Nuestro equipo está formado por veterinarios certificados con amplia experiencia en diferentes especialidades.
+                    </p>
+                    <div class="space-y-4">
+                        <div class="feature-item">
+                            <div class="feature-icon bg-blue-100">
+                                <svg class="w-6 h-6 text-blue-600" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clip-rule="evenodd"/>
+                                </svg>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-gray-800 mb-1">Atención con amor</h4>
+                                <p class="text-gray-600">Tratamos a cada mascota como si fuera nuestra, con cariño y respeto.</p>
+                            </div>
+                        </div>
+                        <div class="feature-item">
+                            <div class="feature-icon bg-green-100">
+                                <svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
+                                </svg>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-gray-800 mb-1">Profesionalismo</h4>
+                                <p class="text-gray-600">Equipo altamente capacitado y en constante actualización.</p>
+                            </div>
+                        </div>
+                        <div class="feature-item">
+                            <div class="feature-icon bg-purple-100">
+                                <svg class="w-6 h-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                                </svg>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-gray-800 mb-1">Disponibilidad</h4>
+                                <p class="text-gray-600">Horarios flexibles y atención de emergencias.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="quote-widget" class="quote-card">
+                        <p class="text-gray-700 italic mb-2">Cargando frase inspiracional...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contacto" class="py-20 px-4 bg-white">
+        <div class="max-w-4xl mx-auto">
+            <div class="text-center mb-12">
+                <h2 class="text-4xl md:text-5xl font-bold text-gray-900 mb-4">Agenda tu Cita</h2>
+                <p class="text-xl text-gray-600">Completa el formulario y nos pondremos en contacto contigo</p>
+            </div>
+
+            <form id="contact-form" class="contact-form">
+                <div class="grid md:grid-cols-2 gap-6 mb-6">
+                    <div>
+                        <label class="form-label">Nombre Completo *</label>
+                        <input
+                            type="text"
+                            id="nombre"
+                            name="nombre"
+                            required
+                            class="form-input"
+                            placeholder="Tu nombre"
+                        />
+                    </div>
+                    <div>
+                        <label class="form-label">Email *</label>
+                        <input
+                            type="email"
+                            id="email"
+                            name="email"
+                            required
+                            class="form-input"
+                            placeholder="tu@email.com"
+                        />
+                    </div>
+                </div>
+
+                <div class="grid md:grid-cols-2 gap-6 mb-6">
+                    <div>
+                        <label class="form-label">Teléfono *</label>
+                        <input
+                            type="tel"
+                            id="telefono"
+                            name="telefono"
+                            required
+                            class="form-input"
+                            placeholder="0999999999"
+                        />
+                    </div>
+                    <div>
+                        <label class="form-label">Nombre de tu mascota *</label>
+                        <input
+                            type="text"
+                            id="mascota"
+                            name="mascota"
+                            required
+                            class="form-input"
+                            placeholder="Nombre de la mascota"
+                        />
+                    </div>
+                </div>
+
+                <div class="mb-6">
+                    <label class="form-label">Servicio requerido *</label>
+                    <select
+                        id="servicio"
+                        name="servicio"
+                        required
+                        class="form-select"
+                    >
+                        <option value="">Selecciona un servicio</option>
+                        <option value="consulta">Consulta General</option>
+                        <option value="vacunacion">Vacunación</option>
+                        <option value="cirugia">Cirugía</option>
+                        <option value="emergencia">Emergencia</option>
+                        <option value="control">Control de Salud</option>
+                        <option value="estetica">Estética y Baño</option>
+                    </select>
+                </div>
+
+                <div class="mb-6">
+                    <label class="form-label">Mensaje adicional</label>
+                    <textarea
+                        id="mensaje"
+                        name="mensaje"
+                        rows="4"
+                        class="form-input"
+                        placeholder="Cuéntanos más sobre tu mascota o el motivo de la consulta..."
+                    ></textarea>
+                </div>
+
+                <button type="submit" class="btn-submit">
+                    Agendar Cita
+                </button>
+
+                <div id="form-status" class="mt-4 hidden"></div>
+            </form>
+
+            <div class="mt-12 grid md:grid-cols-3 gap-6">
+                <div class="contact-info-card contact-card-blue">
+                    <svg class="w-10 h-10 text-blue-600 mx-auto mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/>
+                    </svg>
+                    <h4 class="font-bold text-gray-800 mb-2">Teléfono</h4>
+                    <p class="text-gray-700">+593 964 054 324</p>
+                </div>
+                <div class="contact-info-card contact-card-green">
+                    <svg class="w-10 h-10 text-green-600 mx-auto mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+                    </svg>
+                    <h4 class="font-bold text-gray-800 mb-2">Ubicación</h4>
+                    <p class="text-gray-700">Guayaquil, Ecuador: Colinas de la Florida 2 Mz869 S27</p>
+                </div>
+                <div class="contact-info-card contact-card-purple">
+                    <svg class="w-10 h-10 text-purple-600 mx-auto mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                    </svg>
+                    <h4 class="font-bold text-gray-800 mb-2">Horario</h4>
+                    <p class="text-gray-700">Lun-Sáb: 8AM-8PM</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="citas" class="py-20 px-4 appointments-section">
+        <div class="max-w-6xl mx-auto">
+            <div class="text-center mb-12">
+                <h2 class="text-4xl md:text-5xl font-bold text-gray-900 mb-4">Mis Citas Agendadas</h2>
+  <p class="text-xl text-gray-600">Gestiona tus citas pendientes</p>
+            </div>
+
+            <div id="appointments-container">
+                <div id="no-appointments" class="no-appointments-card">
+                    <svg class="w-20 h-20 text-gray-300 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                    </svg>
+                    <p class="text-xl text-gray-600 mb-6">No tienes citas agendadas aún</p>
+                    <a href="#contacto" class="btn-primary inline-block">
+                        Agendar Primera Cita
+                    </a>
+                </div>
+                <div id="appointments-list" class="grid md:grid-cols-2 gap-6 hidden">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-12 px-4">
+        <div class="max-w-7xl mx-auto">
+            <div class="grid md:grid-cols-4 gap-8 mb-8">
+                <div>
+                    <div class="flex items-center space-x-2 mb-4">
+                        <div class="logo-container">
+                            <svg class="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clip-rule="evenodd"/>
+                            </svg>
+                        </div>
+                        <h3 class="text-xl font-bold">Lis-Vet</h3>
+                    </div>
+                    <p class="text-gray-400">Cuidado veterinario profesional con amor y dedicación.</p>
+                </div>
+                <div>
+                    <h4 class="font-bold mb-4">Enlaces</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#inicio" class="text-gray-400 hover:text-white transition">Inicio</a></li>
+                        <li><a href="#servicios" class="text-gray-400 hover:text-white transition">Servicios</a></li>
+                        <li><a href="#nosotros" class="text-gray-400 hover:text-white transition">Nosotros</a></li>
+                        <li><a href="#contacto" class="text-gray-400 hover:text-white transition">Contacto</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-bold mb-4">Servicios</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li>Consultas Generales</li>
+                        <li>Vacunación</li>
+                        <li>Cirugías</li>
+                        <li>Emergencias 24/7</li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-bold mb-4">Contacto</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li>📞 +593 964 054 324</li>
+                        <li>📧 lisvetGuayaquil@gmail.com</li>
+                        <li>📍 Guayaquil, Ecuador</li>
+                        <li>🕐 Lun-Sáb: 8AM-8PM</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-gray-800 pt-8 text-center text-gray-400">
+                <p>&copy; 2024 Lis-Vet. Todos los derechos reservados. Diseñado con ❤️ para tus mascotas.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
