@@ -1,36 +1,46 @@
+// Variables globales
 let appointments = [];
 
+// Inicialización cuando el DOM está listo
 document.addEventListener('DOMContentLoaded', function() {
     initializeApp();
 });
 
 function initializeApp() {
+    // Configurar navegación
     setupNavigation();
-
+    
+    // Configurar formulario de contacto
     setupContactForm();
-
+    
+    // Cargar datos con fetch (GET)
     fetchWeatherData();
     fetchQuoteData();
-
+    
+    // Cargar citas guardadas
     loadAppointments();
 }
 
+// ========== NAVEGACIÓN ==========
 function setupNavigation() {
     const mobileMenuBtn = document.getElementById('mobile-menu-btn');
     const mobileMenu = document.getElementById('mobile-menu');
     const navbar = document.getElementById('navbar');
-
+    
+    // Toggle menú móvil
     mobileMenuBtn.addEventListener('click', function() {
         mobileMenu.classList.toggle('hidden');
     });
-
+    
+    // Cerrar menú al hacer clic en un enlace
     const mobileLinks = document.querySelectorAll('.mobile-nav-link');
     mobileLinks.forEach(link => {
         link.addEventListener('click', function() {
             mobileMenu.classList.add('hidden');
         });
     });
-
+    
+    // Smooth scroll para todos los enlaces
     const allLinks = document.querySelectorAll('a[href^="#"]');
     allLinks.forEach(link => {
         link.addEventListener('click', function(e) {
@@ -47,7 +57,8 @@ function setupNavigation() {
             }
         });
     });
-
+    
+    // Efecto de scroll en navbar
     window.addEventListener('scroll', function() {
         if (window.scrollY > 50) {
             navbar.classList.add('scrolled');
@@ -57,9 +68,11 @@ function setupNavigation() {
     });
 }
 
+// ========== FETCH - HTTP GET ==========
 function fetchWeatherData() {
     const weatherWidget = document.getElementById('weather-widget');
     
+    // API de Open-Meteo para Guayaquil
     const weatherURL = 'https://api.open-meteo.com/v1/forecast?latitude=-2.1894&longitude=-79.8886&current=temperature_2m,weather_code&timezone=America/Guayaquil';
     
     fetch(weatherURL)
@@ -102,7 +115,8 @@ function getWeatherEmoji(code) {
 
 function fetchQuoteData() {
     const quoteWidget = document.getElementById('quote-widget');
-
+    
+    // API de citas inspiracionales
     const quoteURL = 'https://api.quotable.io/random?tags=inspirational';
     
     fetch(quoteURL)
@@ -127,20 +141,29 @@ function fetchQuoteData() {
         });
 }
 
+// ========== FORMULARIO DE CONTACTO ==========
 function setupContactForm() {
     const form = document.getElementById('contact-form');
     
+    if (!form) {
+        console.error('Formulario no encontrado');
+        return;
+    }
+    
     form.addEventListener('submit', function(e) {
         e.preventDefault();
+        console.log('Formulario enviado');
         handleFormSubmit();
     });
 }
 
+// ========== FETCH - HTTP POST ==========
 function handleFormSubmit() {
     const form = document.getElementById('contact-form');
     const submitBtn = form.querySelector('button[type="submit"]');
     const formStatus = document.getElementById('form-status');
-
+    
+    // Obtener datos del formulario
     const formData = {
         nombre: document.getElementById('nombre').value,
         email: document.getElementById('email').value,
@@ -149,16 +172,19 @@ function handleFormSubmit() {
         servicio: document.getElementById('servicio').value,
         mensaje: document.getElementById('mensaje').value
     };
-
+    
+    // Validar campos requeridos
     if (!formData.nombre || !formData.email || !formData.telefono || 
         !formData.mascota || !formData.servicio) {
         showFormStatus('error', 'Por favor completa todos los campos requeridos.');
         return;
     }
-
+    
+    // Deshabilitar botón y mostrar estado de carga
     submitBtn.disabled = true;
     submitBtn.innerHTML = '<span class="loading"></span> Enviando...';
     
+    // Simular envío con POST a JSONPlaceholder (API de prueba)
     fetch('https://jsonplaceholder.typicode.com/posts', {
         method: 'POST',
         headers: {
@@ -177,6 +203,7 @@ function handleFormSubmit() {
         return response.json();
     })
     .then(data => {
+        // Éxito - Agregar cita
         const appointment = {
             id: data.id || Date.now(),
             ...formData,
@@ -188,11 +215,14 @@ function handleFormSubmit() {
         };
         
         addAppointment(appointment);
-
+        
+        // Limpiar formulario
         form.reset();
-
+        
+        // Mostrar mensaje de éxito
         showFormStatus('success', '¡Cita agendada exitosamente! Nos pondremos en contacto contigo pronto.');
         
+        // Scroll a la sección de citas
         setTimeout(() => {
             document.getElementById('citas').scrollIntoView({ behavior: 'smooth' });
         }, 1500);
@@ -202,6 +232,7 @@ function handleFormSubmit() {
         showFormStatus('error', 'Hubo un error al agendar tu cita. Por favor intenta nuevamente.');
     })
     .finally(() => {
+        // Rehabilitar botón
         submitBtn.disabled = false;
         submitBtn.textContent = 'Agendar Cita';
     });
@@ -218,19 +249,22 @@ function showFormStatus(type, message) {
     }
     
     formStatus.textContent = message;
-
+    
+    // Ocultar después de 5 segundos
     setTimeout(() => {
         formStatus.classList.add('hidden');
     }, 5000);
 }
 
+// ========== GESTIÓN DE CITAS ==========
 function addAppointment(appointment) {
     appointments.push(appointment);
     saveAppointments();
     renderAppointments();
 }
 
-function deleteAppointment(id) {
+// Hacer la función global para que funcione desde el HTML
+window.deleteAppointment = function(id) {
     if (confirm('¿Estás seguro de que deseas eliminar esta cita?')) {
         appointments = appointments.filter(apt => apt.id !== id);
         saveAppointments();
@@ -239,20 +273,34 @@ function deleteAppointment(id) {
 }
 
 function saveAppointments() {
-    localStorage.setItem('lisvet_appointments', JSON.stringify(appointments));
+    try {
+        localStorage.setItem('lisvet_appointments', JSON.stringify(appointments));
+    } catch (error) {
+        console.error('Error al guardar citas:', error);
+    }
 }
 
 function loadAppointments() {
-    const saved = localStorage.getItem('lisvet_appointments');
-    if (saved) {
-        appointments = JSON.parse(saved);
-        renderAppointments();
+    try {
+        const saved = localStorage.getItem('lisvet_appointments');
+        if (saved) {
+            appointments = JSON.parse(saved);
+            renderAppointments();
+        }
+    } catch (error) {
+        console.error('Error al cargar citas:', error);
+        appointments = [];
     }
 }
 
 function renderAppointments() {
     const noAppointments = document.getElementById('no-appointments');
     const appointmentsList = document.getElementById('appointments-list');
+    
+    if (!noAppointments || !appointmentsList) {
+        console.error('Elementos de citas no encontrados');
+        return;
+    }
     
     if (appointments.length === 0) {
         noAppointments.classList.remove('hidden');
@@ -262,7 +310,8 @@ function renderAppointments() {
         noAppointments.classList.add('hidden');
         appointmentsList.classList.remove('hidden');
         
-        appointmentsList.innerHTML = appointments.map(apt => `
+        appointmentsList.innerHTML = appointments.map(apt => {
+            const appointmentHtml = `
             <div class="appointment-card">
                 <div class="appointment-header">
                     <div class="appointment-icon-container">
@@ -272,11 +321,11 @@ function renderAppointments() {
                             </svg>
                         </div>
                         <div class="appointment-info">
-                            <h3>${apt.nombre}</h3>
-                            <p>${apt.fecha}</p>
+                            <h3>${escapeHtml(apt.nombre)}</h3>
+                            <p>${escapeHtml(apt.fecha)}</p>
                         </div>
                     </div>
-                    <button onclick="deleteAppointment(${apt.id})" class="btn-delete">
+                    <button onclick="deleteAppointment(${apt.id})" class="btn-delete" type="button">
                         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
                         </svg>
@@ -292,7 +341,7 @@ function renderAppointments() {
                         </div>
                         <div class="appointment-detail-text">
                             <strong>Mascota</strong>
-                            <span>${apt.mascota}</span>
+                            <span>${escapeHtml(apt.mascota)}</span>
                         </div>
                     </div>
                     
@@ -304,7 +353,7 @@ function renderAppointments() {
                         </div>
                         <div class="appointment-detail-text">
                             <strong>Servicio</strong>
-                            <span>${getServiceName(apt.servicio)}</span>
+                            <span>${escapeHtml(getServiceName(apt.servicio))}</span>
                         </div>
                     </div>
                     
@@ -316,7 +365,7 @@ function renderAppointments() {
                         </div>
                         <div class="appointment-detail-text">
                             <strong>Teléfono</strong>
-                            <span>${apt.telefono}</span>
+                            <span>${escapeHtml(apt.telefono)}</span>
                         </div>
                     </div>
                     
@@ -328,19 +377,28 @@ function renderAppointments() {
                         </div>
                         <div class="appointment-detail-text">
                             <strong>Email</strong>
-                            <span class="text-sm">${apt.email}</span>
+                            <span class="text-sm">${escapeHtml(apt.email)}</span>
                         </div>
                     </div>
                 </div>
                 
                 ${apt.mensaje ? `
                     <div class="mt-4 p-3 bg-gray-50 rounded-lg">
-                        <p class="text-sm text-gray-600"><strong>Mensaje:</strong> ${apt.mensaje}</p>
+                        <p class="text-sm text-gray-600"><strong>Mensaje:</strong> ${escapeHtml(apt.mensaje)}</p>
                     </div>
                 ` : ''}
             </div>
-        `).join('');
+            `;
+            return appointmentHtml;
+        }).join('');
     }
+}
+
+// Función para escapar HTML y prevenir XSS
+function escapeHtml(text) {
+    const div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML;
 }
 
 function getServiceName(serviceCode) {
@@ -355,6 +413,7 @@ function getServiceName(serviceCode) {
     return services[serviceCode] || serviceCode;
 }
 
+// ========== ANIMACIONES AL SCROLL ==========
 function observeElements() {
     const observerOptions = {
         threshold: 0.1,
@@ -369,7 +428,8 @@ function observeElements() {
             }
         });
     }, observerOptions);
-
+    
+    // Observar elementos
     const serviceCards = document.querySelectorAll('.service-card');
     serviceCards.forEach(card => {
         card.style.opacity = '0';
@@ -379,8 +439,12 @@ function observeElements() {
     });
 }
 
+// Inicializar animaciones
 setTimeout(observeElements, 100);
 
+// ========== UTILIDADES ==========
+
+// Prevenir envío accidental del formulario con Enter
 document.querySelectorAll('input').forEach(input => {
     input.addEventListener('keypress', function(e) {
         if (e.key === 'Enter' && e.target.type !== 'submit') {
@@ -389,6 +453,7 @@ document.querySelectorAll('input').forEach(input => {
     });
 });
 
+// Efecto parallax suave en hero
 window.addEventListener('scroll', function() {
     const heroSection = document.querySelector('.hero-section');
     if (heroSection) {
@@ -397,6 +462,7 @@ window.addEventListener('scroll', function() {
     }
 });
 
+// Log para debugging
 console.log('🐾 Lis-Vet - Sistema de gestión de citas veterinarias cargado correctamente');
 console.log('✅ Funcionalidades disponibles:');
 console.log('   - Navegación responsive');
