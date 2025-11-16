@@ -3,6 +3,7 @@ let appointments = [];
 
 // Inicialización cuando el DOM está listo
 document.addEventListener('DOMContentLoaded', function() {
+    console.log('🐾 Iniciando Lis-Vet...');
     initializeApp();
 });
 
@@ -19,6 +20,8 @@ function initializeApp() {
     
     // Cargar citas guardadas
     loadAppointments();
+    
+    console.log('✅ App inicializada correctamente');
 }
 
 // ========== NAVEGACIÓN ==========
@@ -26,6 +29,11 @@ function setupNavigation() {
     const mobileMenuBtn = document.getElementById('mobile-menu-btn');
     const mobileMenu = document.getElementById('mobile-menu');
     const navbar = document.getElementById('navbar');
+    
+    if (!mobileMenuBtn || !mobileMenu || !navbar) {
+        console.error('Elementos de navegación no encontrados');
+        return;
+    }
     
     // Toggle menú móvil
     mobileMenuBtn.addEventListener('click', function() {
@@ -66,23 +74,34 @@ function setupNavigation() {
             navbar.classList.remove('scrolled');
         }
     });
+    
+    console.log('✅ Navegación configurada');
 }
 
 // ========== FETCH - HTTP GET ==========
 function fetchWeatherData() {
     const weatherWidget = document.getElementById('weather-widget');
     
-    // API de Open-Meteo para Guayaquil
+    if (!weatherWidget) {
+        console.error('Widget del clima no encontrado');
+        return;
+    }
+    
+    console.log('🌤️ Obteniendo datos del clima...');
+    
+    // API de Open-Meteo para Guayaquil (sin necesidad de API key)
     const weatherURL = 'https://api.open-meteo.com/v1/forecast?latitude=-2.1894&longitude=-79.8886&current=temperature_2m,weather_code&timezone=America/Guayaquil';
     
     fetch(weatherURL)
         .then(response => {
+            console.log('Respuesta del clima recibida:', response.status);
             if (!response.ok) {
                 throw new Error('Error en la respuesta de la API del clima');
             }
             return response.json();
         })
         .then(data => {
+            console.log('Datos del clima:', data);
             const temperature = data.current.temperature_2m;
             const weatherCode = data.current.weather_code;
             const weatherEmoji = getWeatherEmoji(weatherCode);
@@ -92,12 +111,13 @@ function fetchWeatherData() {
                     ${weatherEmoji} Clima actual en Guayaquil: <span class="font-bold">${temperature}°C</span>
                 </p>
             `;
+            console.log('✅ Clima actualizado correctamente');
         })
         .catch(error => {
-            console.error('Error al obtener datos del clima:', error);
+            console.error('❌ Error al obtener datos del clima:', error);
             weatherWidget.innerHTML = `
                 <p class="text-sm text-gray-700">
-                    🌤️ Clima en Guayaquil
+                    🌤️ Clima en Guayaquil: <span class="font-bold">25°C</span> (estimado)
                 </p>
             `;
         });
@@ -116,24 +136,34 @@ function getWeatherEmoji(code) {
 function fetchQuoteData() {
     const quoteWidget = document.getElementById('quote-widget');
     
-    // API de citas inspiracionales
+    if (!quoteWidget) {
+        console.error('Widget de citas no encontrado');
+        return;
+    }
+    
+    console.log('💬 Obteniendo cita inspiracional...');
+    
+    // API de citas inspiracionales (sin necesidad de API key)
     const quoteURL = 'https://api.quotable.io/random?tags=inspirational';
     
     fetch(quoteURL)
         .then(response => {
+            console.log('Respuesta de cita recibida:', response.status);
             if (!response.ok) {
                 throw new Error('Error en la respuesta de la API de citas');
             }
             return response.json();
         })
         .then(data => {
+            console.log('Datos de cita:', data);
             quoteWidget.innerHTML = `
                 <p class="text-gray-700 italic mb-2">"${data.content}"</p>
                 <p class="text-sm text-gray-500">— ${data.author}</p>
             `;
+            console.log('✅ Cita actualizada correctamente');
         })
         .catch(error => {
-            console.error('Error al obtener cita inspiracional:', error);
+            console.error('❌ Error al obtener cita inspiracional:', error);
             quoteWidget.innerHTML = `
                 <p class="text-gray-700 italic mb-2">"El amor por todas las criaturas vivientes es el atributo más noble del hombre."</p>
                 <p class="text-sm text-gray-500">— Charles Darwin</p>
@@ -146,15 +176,17 @@ function setupContactForm() {
     const form = document.getElementById('contact-form');
     
     if (!form) {
-        console.error('Formulario no encontrado');
+        console.error('❌ Formulario no encontrado');
         return;
     }
     
     form.addEventListener('submit', function(e) {
         e.preventDefault();
-        console.log('Formulario enviado');
+        console.log('📝 Formulario enviado');
         handleFormSubmit();
     });
+    
+    console.log('✅ Formulario configurado');
 }
 
 // ========== FETCH - HTTP POST ==========
@@ -163,28 +195,35 @@ function handleFormSubmit() {
     const submitBtn = form.querySelector('button[type="submit"]');
     const formStatus = document.getElementById('form-status');
     
+    console.log('🔄 Procesando formulario...');
+    
     // Obtener datos del formulario
     const formData = {
-        nombre: document.getElementById('nombre').value,
-        email: document.getElementById('email').value,
-        telefono: document.getElementById('telefono').value,
-        mascota: document.getElementById('mascota').value,
+        nombre: document.getElementById('nombre').value.trim(),
+        email: document.getElementById('email').value.trim(),
+        telefono: document.getElementById('telefono').value.trim(),
+        mascota: document.getElementById('mascota').value.trim(),
         servicio: document.getElementById('servicio').value,
-        mensaje: document.getElementById('mensaje').value
+        mensaje: document.getElementById('mensaje').value.trim()
     };
+    
+    console.log('Datos del formulario:', formData);
     
     // Validar campos requeridos
     if (!formData.nombre || !formData.email || !formData.telefono || 
         !formData.mascota || !formData.servicio) {
+        console.warn('⚠️ Campos incompletos');
         showFormStatus('error', 'Por favor completa todos los campos requeridos.');
         return;
     }
     
     // Deshabilitar botón y mostrar estado de carga
     submitBtn.disabled = true;
-    submitBtn.innerHTML = '<span class="loading"></span> Enviando...';
+    submitBtn.textContent = 'Enviando...';
     
-    // Simular envío con POST a JSONPlaceholder (API de prueba)
+    console.log('📤 Enviando POST request...');
+    
+    // Simular envío con POST a JSONPlaceholder (API de prueba pública)
     fetch('https://jsonplaceholder.typicode.com/posts', {
         method: 'POST',
         headers: {
@@ -197,12 +236,15 @@ function handleFormSubmit() {
         })
     })
     .then(response => {
+        console.log('Respuesta POST recibida:', response.status);
         if (!response.ok) {
             throw new Error('Error en la respuesta del servidor');
         }
         return response.json();
     })
     .then(data => {
+        console.log('✅ POST exitoso:', data);
+        
         // Éxito - Agregar cita
         const appointment = {
             id: data.id || Date.now(),
@@ -214,6 +256,7 @@ function handleFormSubmit() {
             })
         };
         
+        console.log('📋 Agregando cita:', appointment);
         addAppointment(appointment);
         
         // Limpiar formulario
@@ -222,30 +265,43 @@ function handleFormSubmit() {
         // Mostrar mensaje de éxito
         showFormStatus('success', '¡Cita agendada exitosamente! Nos pondremos en contacto contigo pronto.');
         
-        // Scroll a la sección de citas
+        // Scroll a la sección de citas después de 1.5 segundos
         setTimeout(() => {
-            document.getElementById('citas').scrollIntoView({ behavior: 'smooth' });
+            const citasSection = document.getElementById('citas');
+            if (citasSection) {
+                citasSection.scrollIntoView({ behavior: 'smooth' });
+            }
         }, 1500);
     })
     .catch(error => {
-        console.error('Error al enviar el formulario:', error);
+        console.error('❌ Error al enviar el formulario:', error);
         showFormStatus('error', 'Hubo un error al agendar tu cita. Por favor intenta nuevamente.');
     })
     .finally(() => {
         // Rehabilitar botón
         submitBtn.disabled = false;
         submitBtn.textContent = 'Agendar Cita';
+        console.log('✅ Proceso completado');
     });
 }
 
 function showFormStatus(type, message) {
     const formStatus = document.getElementById('form-status');
+    
+    if (!formStatus) {
+        console.error('❌ Elemento form-status no encontrado');
+        alert(message); // Fallback a alert
+        return;
+    }
+    
     formStatus.classList.remove('hidden', 'form-status-success', 'form-status-error');
     
     if (type === 'success') {
         formStatus.classList.add('form-status-success');
+        console.log('✅ Mostrando mensaje de éxito');
     } else {
         formStatus.classList.add('form-status-error');
+        console.log('⚠️ Mostrando mensaje de error');
     }
     
     formStatus.textContent = message;
@@ -258,25 +314,35 @@ function showFormStatus(type, message) {
 
 // ========== GESTIÓN DE CITAS ==========
 function addAppointment(appointment) {
+    console.log('➕ Agregando cita:', appointment);
     appointments.push(appointment);
     saveAppointments();
     renderAppointments();
+    console.log('✅ Cita agregada. Total citas:', appointments.length);
 }
 
 // Hacer la función global para que funcione desde el HTML
 window.deleteAppointment = function(id) {
+    console.log('🗑️ Intentando eliminar cita ID:', id);
+    
     if (confirm('¿Estás seguro de que deseas eliminar esta cita?')) {
         appointments = appointments.filter(apt => apt.id !== id);
         saveAppointments();
         renderAppointments();
+        console.log('✅ Cita eliminada. Total citas:', appointments.length);
+    } else {
+        console.log('❌ Eliminación cancelada');
     }
 }
 
 function saveAppointments() {
     try {
-        localStorage.setItem('lisvet_appointments', JSON.stringify(appointments));
+        const data = JSON.stringify(appointments);
+        localStorage.setItem('lisvet_appointments', data);
+        console.log('💾 Citas guardadas en localStorage:', appointments.length);
     } catch (error) {
-        console.error('Error al guardar citas:', error);
+        console.error('❌ Error al guardar citas:', error);
+        alert('No se pudieron guardar las citas. Verifica los permisos del navegador.');
     }
 }
 
@@ -285,10 +351,13 @@ function loadAppointments() {
         const saved = localStorage.getItem('lisvet_appointments');
         if (saved) {
             appointments = JSON.parse(saved);
+            console.log('📂 Citas cargadas desde localStorage:', appointments.length);
             renderAppointments();
+        } else {
+            console.log('📂 No hay citas guardadas');
         }
     } catch (error) {
-        console.error('Error al cargar citas:', error);
+        console.error('❌ Error al cargar citas:', error);
         appointments = [];
     }
 }
@@ -298,14 +367,17 @@ function renderAppointments() {
     const appointmentsList = document.getElementById('appointments-list');
     
     if (!noAppointments || !appointmentsList) {
-        console.error('Elementos de citas no encontrados');
+        console.error('❌ Elementos de citas no encontrados');
         return;
     }
+    
+    console.log('🎨 Renderizando citas. Total:', appointments.length);
     
     if (appointments.length === 0) {
         noAppointments.classList.remove('hidden');
         appointmentsList.classList.add('hidden');
         appointmentsList.innerHTML = '';
+        console.log('📭 No hay citas para mostrar');
     } else {
         noAppointments.classList.add('hidden');
         appointmentsList.classList.remove('hidden');
@@ -325,7 +397,7 @@ function renderAppointments() {
                             <p>${escapeHtml(apt.fecha)}</p>
                         </div>
                     </div>
-                    <button onclick="deleteAppointment(${apt.id})" class="btn-delete" type="button">
+                    <button onclick="window.deleteAppointment(${apt.id})" class="btn-delete" type="button" title="Eliminar cita">
                         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
                         </svg>
@@ -391,11 +463,14 @@ function renderAppointments() {
             `;
             return appointmentHtml;
         }).join('');
+        
+        console.log('✅ Citas renderizadas exitosamente');
     }
 }
 
 // Función para escapar HTML y prevenir XSS
 function escapeHtml(text) {
+    if (!text) return '';
     const div = document.createElement('div');
     div.textContent = text;
     return div.innerHTML;
@@ -453,17 +528,8 @@ document.querySelectorAll('input').forEach(input => {
     });
 });
 
-// Efecto parallax suave en hero
-window.addEventListener('scroll', function() {
-    const heroSection = document.querySelector('.hero-section');
-    if (heroSection) {
-        const scrolled = window.pageYOffset;
-        heroSection.style.transform = `translateY(${scrolled * 0.3}px)`;
-    }
-});
-
 // Log para debugging
-console.log('🐾 Lis-Vet - Sistema de gestión de citas veterinarias cargado correctamente');
+console.log('🐾 Lis-Vet - Sistema de gestión de citas veterinarias');
 console.log('✅ Funcionalidades disponibles:');
 console.log('   - Navegación responsive');
 console.log('   - Formulario de contacto con validación');
@@ -471,3 +537,4 @@ console.log('   - Fetch API (GET) para clima y citas');
 console.log('   - Fetch API (POST) para agendar citas');
 console.log('   - Gestión de citas con LocalStorage');
 console.log('   - Animaciones y efectos visuales');
+console.log('📊 Para ver logs detallados, mantén abierta la consola');
